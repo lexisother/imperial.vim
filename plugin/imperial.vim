@@ -23,6 +23,7 @@ function! s:curl(url, data, silent)
 endfunction
 
 function! s:upload_to_imperial()
+  let s:extension = expand('%:e') != '' ? expand('%:e') : 'txt'
   let s:data = {
   \ "code": join(getline(1, '$'), "\n")
   \ }
@@ -30,9 +31,9 @@ function! s:upload_to_imperial()
 
   if s:output['success'] == v:true
     if g:imperial_frontend == 'https://snakeb.in'
-      let s:url = 'https://snakeb.in/#' . s:output["document"]["documentId"] . '.' . expand('%:e')
+      let s:url = 'https://snakeb.in/#' . s:output["document"]["documentId"] . '.' . s:extension
     else
-      let s:url = g:imperial_frontend . "/p/" . s:output["document"]["documentId"]
+      let s:url = g:imperial_frontend . "/p/" . s:output["document"]["documentId"] . '.' . s:extension
     endif
     echo "Successfully uploaded! Your link: " . s:url
   else
